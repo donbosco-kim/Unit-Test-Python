@@ -50,23 +50,27 @@ class TestUserInputs(unittest.TestCase):
                 self.assertEqual(result, expected_result, f"Test failed for chart: {time_series}")
 
     #start date: date type YYYY-MM-DD
-    def test_valid_start_date(self):
-        valid_start_dates = ['2023-11-17']
-        for start_date in valid_start_dates:
-            with self.subTest(start_date=start_date):
-                self.assertTrue(start_date == datetime.strptime(start_date, "%Y-%m-%d").strftime("%Y-%m-%d"), f"Test failed for valid start date: {start_date}")
+    def test_start_date(self):
+        test_data = [
+            ('2023-11-17', True),
+            ('', False),
+            ('17-11-2023', False),
+            ('-11-2023', False),
+            ('2023/11/17', False),
+            ('A', False),
+            ('a', False),
+            ('1', False),
+        ]
 
-    def test_invalid_start_date(self):
-        invalid_start_dates = ['', '17-11-2023', '-11-2023', '2023/11/17', 'A', 'a', '1']
-        for start_date in invalid_start_dates:
-            with self.subTest(start_date=start_date):
+        for start_date, expected_result in test_data:
+            with self.subTest(start_date=start_date, expected_result=expected_result):
                 try:
                     datetime.strptime(start_date, "%Y-%m-%d")
                     is_valid = True
                 except ValueError:
                     is_valid = False
 
-                self.assertFalse(is_valid, f"Test failed for invalid start date: {start_date}")
+                self.assertEqual(is_valid, expected_result, f"Test failed for start date: {start_date}")
 
     #end date: date type YYYY-MM-DD
     def test_valid_end_date(self):
