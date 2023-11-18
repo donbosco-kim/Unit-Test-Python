@@ -3,7 +3,7 @@ from datetime import datetime
 class TestUserInputs(unittest.TestCase):
     #symbol: capitalized, 1-7 alpha characters
     def test_symbols(self):
-        test_data = [
+        test_symbols = [
             ('AAPL', True),
             ('GOOGL', True),
             ('123', False),
@@ -11,14 +11,14 @@ class TestUserInputs(unittest.TestCase):
             ('', False),
         ]
 
-        for symbol, expected_result in test_data:
+        for symbol, expected_result in test_symbols:
             with self.subTest(symbol=symbol, expected_result=expected_result):
                 result = symbol.isupper() and symbol.isalpha()
                 self.assertEqual(result, expected_result, f"Test failed for symbol: {symbol}")
     
     #chart type: 1 numeric character, 1 or 2
     def test_chart(self):
-        test_data = [
+        test_charts = [
             ('1', True),
             ('2', True),
             ('', False),
@@ -26,23 +26,28 @@ class TestUserInputs(unittest.TestCase):
             ('$', False),
         ]
 
-        for chart, expected_result in test_data:
+        for chart, expected_result in test_charts:
             with self.subTest(chart=chart, expected_result=expected_result):
                 result = chart.isnumeric()
                 self.assertEqual(result, expected_result, f"Test failed for chart: {chart}")
     
     #time series: 1 numeric character, 1 - 4
-    def test_valid_time_series(self):
-        valid_time_series = ['1', '2', '3', '4']
-        for time_series in valid_time_series:
-            with self.subTest(time_series=time_series):
-                self.assertTrue(time_series.isnumeric() and 1 <= int(time_series) <= 4, f"Test failed for valid time series: {time_series}")
+    def test_time_series(self):
+        test_time_series = [
+            ('1', True),
+            ('2', True),
+            ('3', True),
+            ('4', True),
+            ('', False),
+            ('a', False),
+            ('%', False),
+            ('1.1', False),
+        ] 
 
-    def test_invalid_time_series(self):
-        invalid_time_series = ['', 'a', '%', '1.1']
-        for time_series in invalid_time_series:
-            with self.subTest(time_series=time_series):
-                self.assertFalse(time_series.isnumeric() and 1 <= int(time_series) <= 4, f"Test failed for invalid time series: {time_series}")
+        for time_series, expected_result in test_time_series:
+            with self.subTest(time_series=time_series, expected_result=expected_result):
+                result = time_series.isnumeric() and 1 <= int(time_series) <= 4
+                self.assertEqual(result, expected_result, f"Test failed for chart: {time_series}")
 
     #start date: date type YYYY-MM-DD
     def test_valid_start_date(self):
