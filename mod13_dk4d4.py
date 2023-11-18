@@ -2,19 +2,19 @@ import unittest
 from datetime import datetime
 class TestUserInputs(unittest.TestCase):
     #symbol: capitalized, 1-7 alpha characters
-    #test for valid symbols
-    def test_valid_symbols(self):
-        valid_symbols = ['AAPL', 'GOOGL']
-        for symbol in valid_symbols:
-            with self.subTest(symbol=symbol):
-                self.assertTrue(symbol.isupper() and symbol.isalpha(), f"Test failed for symbol: {symbol}")
-    
-    #test for invalid symbols
-    def test_invalid_symbols(self):
-        invalid_symbols = ['123', 'gOOGL', '']
-        for symbol in invalid_symbols:
-            with self.subTest(symbol=symbol):
-                self.assertFalse(symbol.isupper() and symbol.isalpha(), f"Test failed for symbol: {symbol}")
+    def test_symbols(self):
+        test_data = [
+            ('AAPL', True),
+            ('GOOGL', True),
+            ('123', False),
+            ('gOOGL', False),
+            ('', False),
+        ]
+
+        for symbol, expected_result in test_data:
+            with self.subTest(symbol=symbol, expected_result=expected_result):
+                result = symbol.isupper() and symbol.isalpha()
+                self.assertEqual(result, expected_result, f"Test failed for symbol: {symbol}")
     
     #chart type: 1 numeric character, 1 or 2
     #test for valid charts
