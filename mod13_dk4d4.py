@@ -51,7 +51,7 @@ class TestUserInputs(unittest.TestCase):
 
     #start date: date type YYYY-MM-DD
     def test_start_date(self):
-        test_data = [
+        test_start_date = [
             ('2023-11-17', True),
             ('', False),
             ('17-11-2023', False),
@@ -62,7 +62,7 @@ class TestUserInputs(unittest.TestCase):
             ('1', False),
         ]
 
-        for start_date, expected_result in test_data:
+        for start_date, expected_result in test_start_date:
             with self.subTest(start_date=start_date, expected_result=expected_result):
                 try:
                     datetime.strptime(start_date, "%Y-%m-%d")
@@ -73,23 +73,28 @@ class TestUserInputs(unittest.TestCase):
                 self.assertEqual(is_valid, expected_result, f"Test failed for start date: {start_date}")
 
     #end date: date type YYYY-MM-DD
-    def test_valid_end_date(self):
-        valid_end_dates = ['2023-11-17']
-        for end_date in valid_end_dates:
-            with self.subTest(end_date=end_date):
-                self.assertTrue(end_date == datetime.strptime(end_date, "%Y-%m-%d").strftime("%Y-%m-%d"), f"Test failed for valid start date: {end_date}")
+    #same with start date but here it is anyway
+    def test_end_date(self):
+        test_end_date = [
+            ('2023-11-17', True),
+            ('', False),
+            ('17-11-2023', False),
+            ('-11-2023', False),
+            ('2023/11/17', False),
+            ('A', False),
+            ('a', False),
+            ('1', False),
+        ]
 
-    def test_invalid_end_date(self):
-        invalid_end_dates = ['', '17-11-2023', '-11-2023', '2023/11/17', 'A', 'a', '1']
-        for end_date in invalid_end_dates:
-            with self.subTest(end_date=end_date):
+        for end_date, expected_result in test_end_date:
+            with self.subTest(end_date=end_date, expected_result=expected_result):
                 try:
                     datetime.strptime(end_date, "%Y-%m-%d")
                     is_valid = True
                 except ValueError:
                     is_valid = False
 
-                self.assertFalse(is_valid, f"Test failed for invalid start date: {end_date}")
+                self.assertEqual(is_valid, expected_result, f"Test failed for start date: {end_date}")
 
 if __name__ == '__main__':
     unittest.main()
