@@ -17,19 +17,19 @@ class TestUserInputs(unittest.TestCase):
                 self.assertEqual(result, expected_result, f"Test failed for symbol: {symbol}")
     
     #chart type: 1 numeric character, 1 or 2
-    #test for valid charts
-    def test_valid_chart(self):
-        valid_charts = ['1', '2']
-        for chart in valid_charts:
-            with self.subTest(chart=chart):
-                self.assertTrue(chart.isnumeric(), f"Test failed for chart: {chart}")
+    def test_chart(self):
+        test_data = [
+            ('1', True),
+            ('2', True),
+            ('', False),
+            ('a', False),
+            ('$', False),
+        ]
 
-    #test for invalid charts
-    def test_invalid_chart(self):
-        invalid_charts = ['', 'a', '$']
-        for chart in invalid_charts:
-            with self.subTest(chart=chart):
-                self.assertFalse(chart.isnumeric(), f"Test failed for invalid chart: {chart}")
+        for chart, expected_result in test_data:
+            with self.subTest(chart=chart, expected_result=expected_result):
+                result = chart.isnumeric()
+                self.assertEqual(result, expected_result, f"Test failed for chart: {chart}")
     
     #time series: 1 numeric character, 1 - 4
     def test_valid_time_series(self):
