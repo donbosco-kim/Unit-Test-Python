@@ -30,6 +30,19 @@ class TestUserInputs(unittest.TestCase):
         for chart in invalid_charts:
             with self.subTest(chart=chart):
                 self.assertFalse(chart.isnumeric(), f"Test failed for invalid chart: {chart}")
+    
+    #time series: 1 numeric character, 1 - 4
+    def test_valid_time_series(self):
+        valid_time_series = ['1', '2', '3', '4']
+        for time_series in valid_time_series:
+            with self.subTest(time_series=time_series):
+                self.assertTrue(time_series.isnumeric() and 1 <= int(time_series) <= 4, f"Test failed for valid time series: {time_series}")
+
+    def test_invalid_time_series(self):
+        invalid_time_series = ['', 'a', '%', '1.1']
+        for time_series in invalid_time_series:
+            with self.subTest(time_series=time_series):
+                self.assertFalse(time_series.isnumeric() and 1 <= int(time_series) <= 4, f"Test failed for invalid time series: {time_series}")
 
 if __name__ == '__main__':
     unittest.main()
